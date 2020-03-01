@@ -16,7 +16,8 @@ The `nnn` interface is comprised of the following components:
 ### Creating notes
 
 ```bash
-# The following opens a new prefixed note, with the default filetype
+# The following opens a new prefixed note, with the default filetype, with a
+default template (if any)
 nnn # => $NOTE_DIR/<prefix>.<default-filetype>
 
 # If the file path has a filetype, it will be observed, otherwise the default
@@ -48,13 +49,13 @@ previous settings).
 
 `nnn` offers the following configurations:
 
-| setting | value type | default |
-| ------- | ---------- | ------- |
-| `default_file_type` | string | `'.md'` |
-| `default_editor` | string | `'vim'` |
-| `default_note_dir` | string | `cwd` |
-| `default_template` | string | `None` |
-| `default_prefix` | [string [(**ISO 8601**)](https://ruby-doc.org/stdlib-2.6.1/libdoc/date/rdoc/DateTime.html#method-i-strftime) | `'%Y%m%d%H%M%S'` |
+| setting | value type | required | default |
+| ------- | ---------- | ------- | -------- |
+| `default_file_type` | string | true | `'.md'` |
+| `default_editor` | string | true | `'vim'` |
+| `default_note_dir` | string | true | `cwd` (if a git directory) |
+| `default_template` | string | false | `None` |
+| `default_prefix` | string [(**ISO 8601**)](https://ruby-doc.org/stdlib-2.6.1/libdoc/date/rdoc/DateTime.html#method-i-strftime) | true | `'%Y%m%d%H%M%S'` |
 
 ```bash
 # Creates a new `.nnn/settings.json`, and walks through the configuration
@@ -89,10 +90,20 @@ nnn template meeting # => $NOTE_DIR/.nnn/templates/meeting
 nnn template meeting.md # => $NOTE_DIR/.nnn/templates/meeting.md
 
 # To remove a template
-nnn template rm <template>
+nnn template rm meeting.md
 
 # Using a template
 # Creates a note with a specific template
 nnn -t meeting # Uses `$NOTE_DIR/.nnn/templates/meeting`
-nnn poc.md -t meeting # Creates $NOTE_DIR/poc.md, using `$NOTE_DIR/.nnn/templates/meeting`
+nnn poc.md -t meeting # Creates $NOTE_DIR/<prefix>_poc.md, using `$NOTE_DIR/.nnn/templates/meeting`
 ```
+
+### Syncing
+
+`nnn` syncs notes in `$NOTE_DIR` using git. It pushes up a commit titled `"Note
+sync: %Y%m%d"`.
+
+```bash
+nnn sync
+```
+

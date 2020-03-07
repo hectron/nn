@@ -11,14 +11,14 @@ module Nn
     # Error raised by this runner
     Error = Class.new(StandardError)
 
-    desc 'version', 'nn version'
+    desc 'version', 'Show nn version'
     def version
       require_relative 'version'
       puts "v#{Nn::VERSION}"
     end
     map %w(--version -v) => :version
 
-    desc 'sync', 'Command description...'
+    desc 'sync', 'Sync notes in repository'
     method_option :help, aliases: '-h', type: :boolean,
                          desc: 'Display usage information'
     def sync(*)
@@ -30,7 +30,7 @@ module Nn
       end
     end
 
-    desc 'config', 'Command description...'
+    desc 'config', 'Configure nn'
     method_option :help, aliases: '-h', type: :boolean,
                          desc: 'Display usage information'
     def config(*)
@@ -42,7 +42,7 @@ module Nn
       end
     end
 
-    desc 'template', 'Command description...'
+    desc 'template', 'Create/configure templates'
     method_option :help, aliases: '-h', type: :boolean,
                          desc: 'Display usage information'
     def template(*)

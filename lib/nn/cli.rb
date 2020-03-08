@@ -42,16 +42,8 @@ module Nn
       end
     end
 
-    desc 'template', 'Create/configure templates'
-    method_option :help, aliases: '-h', type: :boolean,
-                         desc: 'Display usage information'
-    def template(*)
-      if options[:help]
-        invoke :help, ['template']
-      else
-        require_relative 'commands/template'
-        Nn::Commands::Template.new(options).execute
-      end
-    end
+    require_relative 'commands/template'
+    register Nn::Commands::Template, 'template', 'template [SUBCOMMAND]', 'Create/configure templates'
+
   end
 end

@@ -4,8 +4,20 @@
 module Nn
   module Commands
     class Template < Thor
-      namespace :template
       default_task :edit
+      namespace :template
+
+      desc 'rm TEMPLATE', 'Delete a template'
+      method_option :help, aliases: '-h', type: :boolean,
+                           desc: 'Display usage information'
+      def rm(template)
+        if options[:help]
+          invoke :help, ['rm']
+        else
+          require_relative 'template/rm'
+          Nn::Commands::Template::Rm.new(template, options).execute
+        end
+      end
 
       desc 'ls [PATH]', 'List templates'
       def ls(path = nil)

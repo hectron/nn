@@ -18,6 +18,18 @@ module Nn
     end
     map %w(--version -v) => :version
 
+    desc 'new NOTE', 'Create a new note'
+    method_option :help, aliases: '-h', type: :boolean,
+                         desc: 'Display usage information'
+    def new(note)
+      if options[:help]
+        invoke :help, ['new']
+      else
+        require_relative 'commands/new_note'
+        Nn::Commands::NewNote.new(note, options).execute
+      end
+    end
+
     desc 'sync', 'Sync notes in repository'
     method_option :help, aliases: '-h', type: :boolean,
                          desc: 'Display usage information'

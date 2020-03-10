@@ -6,9 +6,13 @@ module Nn
     SETTINGS_AVAILABLE = %i{filetype note_directory template prefix}.freeze
     DEFAULT_SETTINGS   = {
       filetype:       '.md',
-      prefix:         '%Y%m%d%H%M%S',
+      prefix:         '%Y%m%d',
       note_directory: Dir.pwd,
     }.freeze
+
+    def self.instance
+      @@instance ||= self.new
+    end
 
     def self.note_directory
       instance.current_config.fetch(:note_directory)
@@ -38,10 +42,6 @@ module Nn
     end
 
     private
-
-    def self.instance
-      @@instance ||= self.new
-    end
 
     def default_config
       {}.tap do |config|

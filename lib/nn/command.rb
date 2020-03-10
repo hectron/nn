@@ -117,5 +117,15 @@ module Nn
       require 'tty-which'
       TTY::Which.exist?(*args)
     end
+
+    # Better logging
+    #
+    # @see http://www.rubydoc.info/gems/tty-logger
+    #
+    # @api public
+    def logger
+      require 'tty-logger'
+      TTY::Logger.new
+    end
   end
 end

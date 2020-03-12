@@ -18,11 +18,12 @@ RSpec.describe Nn::Configuration do
     end
 
     describe '.note_directory' do
-      let(:mock_config) { { note_directory: '/home/e/takes/notes' } }
+      let(:mock_config) { { note_directory: '~/e/takes/notes' } }
+      let(:directory) { File.expand_path('~/e/takes/notes') }
 
       subject { described_class.note_directory }
 
-      it { is_expected.to eq('/home/e/takes/notes') }
+      it { is_expected.to eq(directory) }
     end
 
     describe '.prefix' do

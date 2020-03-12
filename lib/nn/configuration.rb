@@ -15,7 +15,11 @@ module Nn
     end
 
     def self.note_directory
-      instance.current_config.fetch(:note_directory)
+      dir = instance.current_config.fetch(:note_directory)
+
+      unless dir.nil? || dir.empty?
+        File.absolute_path(File.expand_path(dir))
+      end
     end
 
     def self.prefix

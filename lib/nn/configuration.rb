@@ -22,6 +22,14 @@ module Nn
       end
     end
 
+    def self.template_directory
+      note_dir = note_directory
+
+      if note_dir
+        File.join(note_dir, 'templates')
+      end
+    end
+
     def self.prefix
       instance.current_config.fetch(:prefix)
     end

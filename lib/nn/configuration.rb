@@ -26,7 +26,7 @@ module Nn
       note_dir = note_directory
 
       if note_dir
-        File.join(note_dir, 'templates')
+        File.join(note_dir, '.nn', 'templates')
       end
     end
 

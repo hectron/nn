@@ -14,18 +14,36 @@ module Nn
         end
 
         def execute(input: $stdin, output: $stdout)
-          template_dir = Nn::Configuration.template_directory
+          begin
+            ensure_can_edit
 
-          if template.nil?
-            files        = Dir.glob(File.join(template_dir, '*'))
-            files.each { |file| file.gsub!(%r{#{template_dir}/}, '') } # clean up file path
+            template_dir = Nn::Configuration.template_directory
 
-            template = prompt.select("Which template would you like to edit?", files, filter: true)
+            if template.nil?
+              files = Dir.glob(File.join(template_dir, '*'))
+              files.each { |file| file.gsub!(%r{#{template_dir}/}, '') } # clean up file path
+
+              template = prompt.select("Which template would you like to edit?", files, filter: true)
+            end
+
+            path = File.join(template_dir, template)
+
+            editor.open(path)
+          rescue => e
+            logger.fatal("Error:", e.message, template: template)
           end
+        end
 
-          path = File.join(template_dir, template)
+        private
 
-          editor.open(path)
+        def ensure_can_edit
+          unless template_directory_exists?
+            raise "Template directory not set up. Please create a template to auto-create the directory"
+          end
+        end
+
+        def template_directory_exists?
+          File.directory?(Nn::Configuration.template_directory)
         end
       end
     end

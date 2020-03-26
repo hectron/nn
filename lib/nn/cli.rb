@@ -32,6 +32,18 @@ module Nn
       end
     end
 
+    desc 'edit NOTE', 'Edits an existing note'
+    method_option :help, aliases: '-h', type: :boolean,
+                  desc: 'Display usage information'
+    def edit(note = nil)
+      if options[:help]
+        invoke :help, ['edit']
+      else
+        require_relative 'commands/edit_note'
+        Nn::Commands::EditNote.new(note, options).execute
+      end
+    end
+
     desc 'sync', 'Sync notes in repository'
     method_option :help, aliases: '-h', type: :boolean,
                          desc: 'Display usage information'

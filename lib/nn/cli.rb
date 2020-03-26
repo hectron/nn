@@ -19,6 +19,8 @@ module Nn
     map %w(--version -v) => :version
 
     desc 'new NOTE', 'Create a new note'
+    method_option :template, aliases: '-t', type: :string,
+                         desc: 'Template to use (if exists)'
     method_option :help, aliases: '-h', type: :boolean,
                          desc: 'Display usage information'
     def new(note)

@@ -19,7 +19,8 @@ module Nn
         begin
           # Todo -- support editing a note implicitly, depending on default filetype
           path = prompt.select("Which note would you like to edit?", all_notes, filter: true)
-          editor.open(path)
+
+          editor.open(File.join(Nn::Configuration.note_directory, path))
         rescue => e
           logger.fatal("Error:", e.message, note: note)
         end

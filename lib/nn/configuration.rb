@@ -3,11 +3,12 @@ require 'json'
 
 module Nn
   class Configuration
-    SETTINGS_AVAILABLE = %i{filetype note_directory template prefix}.freeze
+    SETTINGS_AVAILABLE = %i{filetype note_directory template_directory template prefix}.freeze
     DEFAULT_SETTINGS   = {
-      filetype:       '.md',
-      prefix:         '%Y%m%d',
-      note_directory: Dir.pwd,
+      filetype:           '.md',
+      prefix:             '%Y%m%d',
+      note_directory:     File.join(Dir.home, ".nn", "notes"),
+      template_directory: File.join(Dir.home, ".nn", "templates"),
     }.freeze
 
     def self.instance
@@ -23,10 +24,10 @@ module Nn
     end
 
     def self.template_directory
-      note_dir = note_directory
+      dir = instance.current_config.fetch(:template_directory)
 
-      if note_dir
-        File.join(note_dir, '.nn', 'templates')
+      unless dir.nil? || dir.empty?
+        File.absolute_path(File.expand_path(dir))
       end
     end
 

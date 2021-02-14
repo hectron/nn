@@ -54,13 +54,13 @@ previous settings).
 
 ```bash
 # Creates a new `.nn/settings.json`, and walks through the configuration
-nnn config init
+nn config init
 
 # Lists current settings (grouped by source)
-nnn config
+nn config
 
-# Sets one or more configs in $PWD/.nnn/settings.json
-nnn config set <config>=<value> ... <configN>=<valueN>
+# Sets one or more configs in $PWD/.nn/settings.json
+nn config set <config>=<value> ... <configN>=<valueN>
 ```
 
 ### Templates
@@ -75,17 +75,17 @@ notes.
 nn template ls
 
 # To create a new template
-nn template new meeting     # => $NOTE_DIR/.nnn/templates/meeting
-nn template new meeting.md  # => $NOTE_DIR/.nnn/templates/meeting.md
+nn template new meeting     # => $NOTE_DIR/.nn/templates/meeting
+nn template new meeting.md  # => $NOTE_DIR/.nn/templates/meeting.md
 
 # Edit a template
-nn template edit meeting    # => $NOTE_DIR/.nnn/templates/meeting
-nn template edit meeting.md # => $NOTE_DIR/.nnn/templates/meeting.md
+nn template edit meeting    # => $NOTE_DIR/.nn/templates/meeting
+nn template edit meeting.md # => $NOTE_DIR/.nn/templates/meeting.md
 
 # To remove a template
 nn template rm meeting.md
 
-# Creates a note using `$NOTE_DIR/.nnn/templates/meeting`
+# Creates a note using `$NOTE_DIR/.nn/templates/meeting`
 nn new poc.md -t meeting
 ```
 
@@ -97,4 +97,7 @@ sync: %Y%m%d"`.
 ```bash
 nn sync
 ```
+
+## Development
+
 

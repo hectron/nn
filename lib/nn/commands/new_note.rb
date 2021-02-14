@@ -59,7 +59,7 @@ module Nn
         @new_note_name ||= begin
           filename = File.basename(note, '.*')
 
-          "#{new_note_prefix}_#{filename}#{new_note_filetype}"
+          [new_note_prefix, filename, new_note_filetype].compact.join
         end
       end
 
@@ -74,7 +74,9 @@ module Nn
       end
 
       def new_note_prefix
-        DateTime.now.strftime(Nn::Configuration.prefix)
+        if Nn::Configuration.prefix
+          "#{DateTime.now.strftime(Nn::Configuration.prefix)}_"
+        end
       end
 
       def new_note_folder_path

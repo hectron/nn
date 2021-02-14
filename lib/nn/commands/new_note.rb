@@ -18,12 +18,17 @@ module Nn
       def execute(input: $stdin, output: $stdout)
         begin
           ensure_can_create
+          ensure_template_exists if template?
 
           if in_folders? && !custom_folder_exists?
             generator.create_dir(new_note_folder_path, Nn::Configuration.note_directory)
           end
 
-          generator.create_file(new_note_path)
+          if template?
+            generator.copy_file(template, new_note_path)
+          else
+            generator.create_file(new_note_path)
+          end
 
           editor.open(new_note_path)
         rescue => e
@@ -36,6 +41,18 @@ module Nn
       def ensure_can_create
         raise "Note directory not set up" unless note_directory_configured?
         raise "Cannot create a note outside of note directory" unless in_note_directory?
+      end
+
+      def ensure_template_exists
+        raise "Template `#{options['template']}` does not exist" unless File.exist?(template)
+      end
+
+      def template
+        @template ||= if options.has_key?('template')
+          File.join(Nn::Configuration.template_directory, options['template'])
+        else
+          nil
+        end
       end
 
       def new_note_name
@@ -92,6 +109,10 @@ module Nn
 
       def in_folders?
         !new_note_folder_path.nil? && !new_note_folder_path.empty?
+      end
+
+      def template?
+        !template.nil? && !template.empty?
       end
     end
   end

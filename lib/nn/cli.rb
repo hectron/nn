@@ -19,6 +19,8 @@ module Nn
     map %w(--version -v) => :version
 
     desc 'new NOTE', 'Create a new note'
+    method_option :template, aliases: '-t', type: :string,
+                         desc: 'Template to use (if exists)'
     method_option :help, aliases: '-h', type: :boolean,
                          desc: 'Display usage information'
     def new(note)
@@ -27,6 +29,18 @@ module Nn
       else
         require_relative 'commands/new_note'
         Nn::Commands::NewNote.new(note, options).execute
+      end
+    end
+
+    desc 'edit NOTE', 'Edits an existing note'
+    method_option :help, aliases: '-h', type: :boolean,
+                  desc: 'Display usage information'
+    def edit(note = nil)
+      if options[:help]
+        invoke :help, ['edit']
+      else
+        require_relative 'commands/edit_note'
+        Nn::Commands::EditNote.new(note, options).execute
       end
     end
 

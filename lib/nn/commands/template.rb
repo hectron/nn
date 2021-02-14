@@ -33,18 +33,31 @@ module Nn
       long_desc <<-DESC
         If a template doesn't exist, this will create it and open it in your $EDITOR.
 
-        This command can also be invoked without `edit` specified.
-
-        E.g. `nn template TEMPLATE`
+        E.g. `nn template edit TEMPLATE`
       DESC
       def edit(template = nil)
         if options[:help]
           invoke :help, ['edit']
-        elsif template.nil?
-          invoke :help
         else
           require_relative 'template/edit'
           Nn::Commands::Template::Edit.new(template).execute
+        end
+      end
+
+      desc 'new TEMPLATE', 'Create a template'
+      long_desc <<-DESC
+        This will create a template and open it in your $EDITOR.
+
+        E.g. `nn template new TEMPLATE`
+      DESC
+      def new(template)
+        if options[:help]
+          invoke :help, ['new']
+        elsif template.nil?
+          invoke :help
+        else
+          require_relative 'template/new'
+          Nn::Commands::Template::New.new(template).execute
         end
       end
     end
